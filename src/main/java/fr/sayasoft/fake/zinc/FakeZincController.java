@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import fr.sayasoft.zinc.sdk.domain.OrderRequest;
 import fr.sayasoft.zinc.sdk.domain.OrderResponse;
 import fr.sayasoft.zinc.sdk.domain.ZincConstants;
-import static fr.sayasoft.zinc.sdk.domain.ZincConstants.requestId;
 import fr.sayasoft.zinc.sdk.domain.ZincError;
 import fr.sayasoft.zinc.sdk.enums.ZincErrorCode;
 import fr.sayasoft.zinc.sdk.enums.ZincWebhookType;
@@ -74,6 +73,8 @@ public class FakeZincController {
             produces = "application/json; charset=UTF-8"
     )
     public String getOrder(@PathVariable(value = "request_id") String requestId) {
+        log.info("Received request to path: GET " + "/v1/orders/" + requestId);
+        log.info("Will return: " + GET_ORDER_RESPONSE);
         return GET_ORDER_RESPONSE;
     }
 
@@ -89,11 +90,12 @@ public class FakeZincController {
      */
     @SuppressWarnings("unused")
     @RequestMapping(
-            value = "/v1/order",
+            value = "/v1/orders",
             method = RequestMethod.POST,
             produces = "application/json; charset=UTF-8"
     )
     public ResponseEntity<?> postOrder(@RequestBody String json) {
+        log.info("Received request to path: POST " + "/v1/orders/" + json);
         final Gson gson = new Gson();
         final OrderRequest orderRequest = gson.fromJson(json, OrderRequest.class);
         // can be null
@@ -157,8 +159,8 @@ public class FakeZincController {
     @RequestMapping(value = "/webhook/{webhookType}/{requestId}", method = RequestMethod.POST)
     @ResponseBody
     public String webhook(@PathVariable("webhookType") ZincWebhookType zincWebhookType,
-                       @PathVariable("requestId") String requestId,
-                       @RequestBody String json) {
+                          @PathVariable("requestId") String requestId,
+                          @RequestBody String json) {
         log.info("hook with request parameters: " + zincWebhookType + ", " + requestId);
         log.info("and request body            : " + json);
         return "OK";
