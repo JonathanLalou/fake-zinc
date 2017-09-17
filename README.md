@@ -12,3 +12,7 @@ This allows to get and post orders, without consuming the real API and therefore
 * server: Undertow on localhost:9090
 * build: ```mvn clean install```
 * run  : ```mvn spring-boot:run```
+
+# Needed #
+The JAR fr.sayasoft:zinc-java-sdk:jar is needed. The source code for it is available in GitHub: 
+https://github.com/JonathanLalou/zinc-java-sdk
