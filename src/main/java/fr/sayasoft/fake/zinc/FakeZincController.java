@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -131,7 +133,7 @@ public class FakeZincController {
         }
 
         if (!orderRequest.getWebhooks().isEmpty()) {
-            callbackWebHooks(orderRequest);
+            scheduleCallbackWebHooks(orderRequest);
         }
 
         return new ResponseEntity<>(
@@ -140,6 +142,16 @@ public class FakeZincController {
         // TODO call the webhooks if present
     }
 
+    protected void scheduleCallbackWebHooks(final OrderRequest orderRequest) {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                callbackWebHooks(orderRequest);
+            }
+        }, 10000); // TODO parametrize
+    }
+
+
     protected void callbackWebHooks(OrderRequest orderRequest) {
         final RestTemplate restTemplate = new RestTemplate();
         final OrderResponse orderResponse = OrderResponse.builder().orderRequest(orderRequest).build();
@@ -147,7 +159,7 @@ public class FakeZincController {
                 .forEach((zincWebhookType, url) -> {
                             log.info("Calling webhook for zincWebhookType: " + zincWebhookType + " and URL: " + url);
                             try {
-                                Thread.sleep(30000);
+                                Thread.sleep(30000); // TODO parametrize
                             } catch (InterruptedException e) {
                                 log.error("InterruptedException", e);
                             }
