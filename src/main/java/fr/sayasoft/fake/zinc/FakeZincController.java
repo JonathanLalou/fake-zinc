@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -148,9 +149,13 @@ public class FakeZincController {
                             try {
                                 Thread.sleep(30000);
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                log.error("InterruptedException", e);
                             }
-                            restTemplate.postForObject(url, orderResponse, String.class);
+                            try {
+                                restTemplate.postForObject(url, orderResponse, String.class);
+                            } catch (RestClientException e) {
+                                log.error("RestClientException", e);
+                            }
                         }
                 );
     }
