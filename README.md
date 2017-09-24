@@ -16,3 +16,8 @@ This allows to get and post orders, without consuming the real API and therefore
 # Needed #
 The JAR fr.sayasoft:zinc-java-sdk:jar is needed. The source code for it is available in GitHub: 
 https://github.com/JonathanLalou/zinc-java-sdk
+
+# Shutdown #
+SpringBoot Actuator is enabled, therefore health is monitored. Moreover, to shutdown gracefully (very useful during integration and non-regression tests), call ```/shutdown``` in POST, eg:
+
+    curl -X POST http://localhost:9090/shutdown
