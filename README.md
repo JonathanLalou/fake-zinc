@@ -42,7 +42,7 @@ http://localhost:9090/webhook/statusUpdated/abcd
 http://localhost:9090/webhook/requestSucceeded/abcd
 ```  
 ## Tip! ##
-The fake server is mounted on SpringBoot and SpringBootActuator is enabled, with security level lowered. As a consequence, the fake server can be gracefully shutdown on posting a query to the endpoint `/shutdown`, eg:
+SpringBoot Actuator is enabled, therefore health is monitored. Moreover, to shutdown gracefully (very useful during integration and non-regression tests), call ```/shutdown``` in POST, eg:
 ```
 curl -X POST http://localhost:9090/shutdown
 ```

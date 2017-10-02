@@ -1,2 +1,9 @@
 server:
   port: 9090
+# Disable security
+management:
+    security:
+        enabled: false
+endpoints:
+  shutdown:
+    enabled: true
