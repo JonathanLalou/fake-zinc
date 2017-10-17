@@ -207,8 +207,8 @@ public class FakeZincControllerUnitTest {
         final String idempotencyKey = "Carina-Î²-Carinae-Miaplacidus";
         orderRequest.setIdempotencyKey(idempotencyKey);
         orderRequest.setWebhooks(new HashMap<>(2));
-        orderRequest.getWebhooks().put(ZincWebhookType.statusUpdated, "http://localhost:9090/webhook/statusUpdated/abcd");
-        orderRequest.getWebhooks().put(ZincWebhookType.requestSucceeded, "http://localhost:9090/webhook/requestSucceeded/abcd");
+        orderRequest.getWebhooks().put(ZincWebhookType.status_updated, "http://localhost:9090/webhook/status_updated/abcd");
+        orderRequest.getWebhooks().put(ZincWebhookType.request_succeeded, "http://localhost:9090/webhook/request_succeeded/abcd");
         this.mockMvc.perform(
                 post(
                         "/v1/order")
