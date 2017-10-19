@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
@@ -107,10 +109,12 @@ public class FakeZincController {
         try {
             if (null != orderRequest.getClientNotes()) {
                 final ZincErrorCode zincErrorCode = ZincErrorCode.valueOf(orderRequest.getClientNotes().toString());
+                final Map<String, String>  data = new HashMap<>(1);
+                data.put("fakeField", idempotencyKey);
                 final ZincError zincError = ZincError.builder()
                         .type(ZincConstants.error)
                         .code(zincErrorCode)
-                        .data("{'fakeField': '" + idempotencyKey + "'}") // TODO replace with a fake Map<>
+                        .data(data)
                         .message(zincErrorCode.getMeaning())
                         .orderRequest(orderRequest)
                         .build();
