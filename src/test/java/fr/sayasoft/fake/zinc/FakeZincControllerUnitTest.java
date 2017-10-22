@@ -91,7 +91,7 @@ public class FakeZincControllerUnitTest {
                             .useGift(false)
                             .build()
             )
-            .retailerCredentials(new RetailerCredentials("test@test.fr", "password")) // TODO
+            .retailerCredentials(new RetailerCredentials("test@test.fr", "password", null)) // TODO
             .maxPrice(0) // TODO
             .giftMessage("Here is your package") // TODO
             .isGift(true)
