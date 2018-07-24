@@ -173,7 +173,6 @@ public class FakeZincControllerUnitTest {
 
     @Test
     public void getOrder() throws Exception {
-
         this.mockMvc.perform(get("/v1/orders/1234546"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(FakeZincController.GET_ORDER_RESPONSE));
@@ -239,6 +238,26 @@ public class FakeZincControllerUnitTest {
                 .andExpect(content().string(StringContains.containsString("\"data\":\"{'fakeField': 'Ursa-Major-Ursae-Majoris-Phecda'}\"")))
                 .andExpect(content().string(StringContains.containsString("\"_type\":\"error\"")))
         ;
+    }
+
+    @Test
+    public void getProductOffer() throws Exception {
+        this.mockMvc.perform(get("/v1/products/0923568964/offers?retailer=amazon"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(FakeZincController.GET_PRODUCT_OFFER_RESPONSE));
+        this.mockMvc.perform(get("/v1/products/0923568964/offers?retailer=amazon&async=true&max_age=1234"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(FakeZincController.GET_PRODUCT_OFFER_RESPONSE));
+        this.mockMvc.perform(get("/v1/products/0923568964/offers?retailer=amazon&async=true&newer_than=1522000000"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(FakeZincController.GET_PRODUCT_OFFER_RESPONSE));
+    }
+
+    @Test
+    public void getProductOffer_missingRetailer() throws Exception {
+        this.mockMvc.perform(get("/v1/products/0923568964/offers?async=true&max_age=1234"))
+                .andDo(print()).andExpect(status().is4xxClientError())
+                ;
     }
 
 }

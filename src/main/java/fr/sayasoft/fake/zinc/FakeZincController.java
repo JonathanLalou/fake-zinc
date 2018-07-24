@@ -56,6 +56,28 @@ public class FakeZincController {
             "    }\n" +
             "  ]\n" +
             "}";
+    public static final String GET_PRODUCT_OFFER_RESPONSE = "{\n" +
+            "  \"retailer\": \"amazon\",\n" +
+            "  \"status\": \"completed\",\n" +
+            "  \"offers\":[\n" +
+            "    {\n" +
+            "      \"addon\": false,\n" +
+            "      \"condition\": \"New\",\n" +
+            "      \"handling_days_max\": 0,\n" +
+            "      \"handling_days_min\": 0,\n" +
+            "      \"international\": false,\n" +
+            "      \"merchant_id\": \"ATVPDKIKX0DER\",\n" +
+            "      \"offerlisting_id\": \"lUai8vEbhC%2F2vYZDwaePlc4baWiHzAy9XJncUR%2FpQ9l4VOrs%2FfpYt4ZtreQaB%2BPL1xJwz5OpIc%2BJjyymHg3iv4YkZvWy5z7flil7n7lUDWNPY76YUhMNdw%3D%3D\",\n" +
+            "      \"price\": 9.79,\n" +
+            "      \"ship_price\": 0,\n" +
+            "      \"prime\": true,\n" +
+            "      \"prime_only\": false,\n" +
+            "      \"seller_name\": \"Amazon.com\",\n" +
+            "      \"seller_num_ratings\": 1000000,\n" +
+            "      \"seller_percent_positive\": 100\n" +
+            "    }\n" +
+            "  ]\n" +
+            "}";
 
     public static final String POST_ORDER_RESPONSE_TO_BE_REPLACED = "XXX";
     public static final String POST_ORDER_RESPONSE = "{\n" +
@@ -185,6 +207,31 @@ public class FakeZincController {
         log.info("hook with request parameters: " + zincWebhookType + ", " + requestId);
         log.info("and request body            : " + json);
         return "OK";
+    }
+
+    @SuppressWarnings("unused")
+    @RequestMapping(
+            value = "/v1/products/{product_id}/offers",
+            method = RequestMethod.GET,
+            produces = "application/json; charset=UTF-8"
+    )
+    /** eg https://api.zinc.io/v1/products/0923568964/offers?retailer=amazon  */
+    public String getProductOffer(
+            @PathVariable(value = "product_id", required = true) String productId,
+            @RequestParam(value = "retailer", required = true) String retailer,
+            @RequestParam(value = "max_age", required = false) Long maxAge,
+            @RequestParam(value = "newer_than", required = false) Long newerThan, // timestamp in seconds, ex: 1522268852 for 28/March/2018 at 22:27:32
+            @RequestParam(value = "async", required = false) Boolean async
+    ) {
+        log.info("Received request to path: GET " + "/v1/products/" + productId);
+        log.info("Received parameters: "
+                + "retailer: " + retailer
+                + ", max_age: " + maxAge
+                + ", newer_than: " + newerThan
+                + ", async: " + async
+        );
+        log.info("Will return: " + GET_PRODUCT_OFFER_RESPONSE);
+        return GET_PRODUCT_OFFER_RESPONSE;
     }
 
 }
