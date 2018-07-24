@@ -260,4 +260,24 @@ public class FakeZincControllerUnitTest {
                 ;
     }
 
+    @Test
+    public void getProductDetails() throws Exception {
+        this.mockMvc.perform(get("/v1/products/0923568964?retailer=amazon"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(FakeZincController.GET_PRODUCT_DETAILS_RESPONSE));
+        this.mockMvc.perform(get("/v1/products/0923568964?retailer=amazon&async=true&max_age=1234"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(FakeZincController.GET_PRODUCT_DETAILS_RESPONSE));
+        this.mockMvc.perform(get("/v1/products/0923568964?retailer=amazon&async=true&newer_than=1522000000"))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(FakeZincController.GET_PRODUCT_DETAILS_RESPONSE));
+    }
+
+    @Test
+    public void getProductDetails_missingRetailer() throws Exception {
+        this.mockMvc.perform(get("/v1/products/0923568964?async=true&max_age=1234"))
+                .andDo(print()).andExpect(status().is4xxClientError())
+                ;
+    }
+
 }

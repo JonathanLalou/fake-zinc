@@ -56,6 +56,7 @@ public class FakeZincController {
             "    }\n" +
             "  ]\n" +
             "}";
+
     public static final String GET_PRODUCT_OFFER_RESPONSE = "{\n" +
             "  \"retailer\": \"amazon\",\n" +
             "  \"status\": \"completed\",\n" +
@@ -77,6 +78,120 @@ public class FakeZincController {
             "      \"seller_percent_positive\": 100\n" +
             "    }\n" +
             "  ]\n" +
+            "}";
+
+    public static final String GET_PRODUCT_DETAILS_RESPONSE = "{\n" +
+            "    \"status\": \"completed\",\n" +
+            "    \"original_retail_price\": 899,\n" +
+            "    \"timestamp\": 1515775557,\n" +
+            "    \"all_variants\": [\n" +
+            "        {\n" +
+            "            \"variant_specifics\": [\n" +
+            "                {\n" +
+            "                    \"dimension\": \"Size\",\n" +
+            "                    \"value\": \"2\"\n" +
+            "                }\n" +
+            "            ],\n" +
+            "            \"product_id\": \"B00Q3H18EQ\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "            \"variant_specifics\": [\n" +
+            "                {\n" +
+            "                    \"dimension\": \"Size\",\n" +
+            "                    \"value\": \"1\"\n" +
+            "                }\n" +
+            "            ],\n" +
+            "            \"product_id\": \"B00KFP6NHO\"\n" +
+            "        }\n" +
+            "    ],\n" +
+            "    \"retailer\": \"amazon\",\n" +
+            "    \"feature_bullets\": [\n" +
+            "        \"Includes four freeze-and-feed popsicle molds with handles shaped perfectly for little hands\",\n" +
+            "        \"Perfect for fresh homemade puree popsicles - turn fresh fruit/veggie puree or juice into 1 fl. oz popsicles\",\n" +
+            "        \"Wide popsicle-holder base catches drips as the popsicle melts to reduce the risk of messes\",\n" +
+            "        \"Great for teething babies to help soothe sore gums\",\n" +
+            "        \"6 Months + / BPA Free\"\n" +
+            "    ],\n" +
+            "    \"variant_specifics\": [\n" +
+            "        {\n" +
+            "            \"dimension\": \"Size\",\n" +
+            "            \"value\": \"1\"\n" +
+            "        }\n" +
+            "    ],\n" +
+            "    \"main_image\": \"https://images-na.ssl-images-amazon.com/images/I/61K0YbuLi-L.jpg\",\n" +
+            "    \"images\": [\n" +
+            "        \"https://images-na.ssl-images-amazon.com/images/I/61K0YbuLi-L.jpg\",\n" +
+            "        \"https://images-na.ssl-images-amazon.com/images/I/81KtOn8ddTL.jpg\",\n" +
+            "        \"https://images-na.ssl-images-amazon.com/images/I/71%2BruDKMSoL.jpg\",\n" +
+            "        \"https://images-na.ssl-images-amazon.com/images/I/91AE6dpp5EL.jpg\",\n" +
+            "        \"https://images-na.ssl-images-amazon.com/images/I/61FQEQJR2HL.jpg\",\n" +
+            "        \"https://images-na.ssl-images-amazon.com/images/I/511agWyBf3L.jpg\",\n" +
+            "        \"https://images-na.ssl-images-amazon.com/images/I/31cC6K6y%2ByL.jpg\",\n" +
+            "        \"https://images-na.ssl-images-amazon.com/images/I/31ocdUye0ML.jpg\"\n" +
+            "    ],\n" +
+            "    \"package_dimensions\": {\n" +
+            "        \"weight\": {\n" +
+            "            \"amount\": 8.5,\n" +
+            "            \"unit\": \"ounces\"\n" +
+            "        },\n" +
+            "        \"size\": {\n" +
+            "            \"width\": {\n" +
+            "                \"amount\": 4,\n" +
+            "                \"unit\": \"inches\"\n" +
+            "            },\n" +
+            "            \"depth\": {\n" +
+            "                \"amount\": 5.8,\n" +
+            "                \"unit\": \"inches\"\n" +
+            "            },\n" +
+            "            \"length\": {\n" +
+            "                \"amount\": 5.8,\n" +
+            "                \"unit\": \"inches\"\n" +
+            "            }\n" +
+            "        }\n" +
+            "    },\n" +
+            "    \"epids\": [\n" +
+            "        {\n" +
+            "            \"type\": \"MPN\",\n" +
+            "            \"value\": \"5438\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "            \"type\": \"UPC\",\n" +
+            "            \"value\": \"048526054381\"\n" +
+            "        },\n" +
+            "        {\n" +
+            "            \"type\": \"EAN\",\n" +
+            "            \"value\": \"0048526054381\"\n" +
+            "        }\n" +
+            "    ],\n" +
+            "    \"product_id\": \"B00KFP6NHO\",\n" +
+            "    \"asin\": \"B00KFP6NHO\",\n" +
+            "    \"ship_price\": 0,\n" +
+            "    \"categories\": [\n" +
+            "        \"Home & Kitchen\",\n" +
+            "        \"Kitchen & Dining\",\n" +
+            "        \"Kitchen Utensils & Gadgets\",\n" +
+            "        \"Specialty Tools & Gadgets\",\n" +
+            "        \"Ice Pop Molds\"\n" +
+            "    ],\n" +
+            "    \"review_count\": 829,\n" +
+            "    \"epids_map\": {\n" +
+            "        \"MPN\": \"5438\",\n" +
+            "        \"UPC\": \"048526054381\",\n" +
+            "        \"EAN\": \"0048526054381\"\n" +
+            "    },\n" +
+            "    \"title\": \"Nuby Garden Fresh Fruitsicle Frozen Pop Tray\",\n" +
+            "    \"brand\": \"Nuby\",\n" +
+            "    \"product_description\": \"Size:1  Nuby's Garden Fresh Fruitsicle Frozen Popsicle Tray\\nis specially designed for making fresh puree popsicles at home. Nuby’s\\nFruitsicles are the perfect size for baby’s small hands and are designed to\\ncatch drips as the pop melts. Fruitsicles are perfect for teething babies with\\nsore gums. This set includes four fruitsicle handles and a tray to mold the\\npops while keeping them in place while in your freezer. To use: fill\\ncompartments with fresh puree, breast milk, or juice. Snap handles into mold\\nand freeze until solid. BPA Free. By Nuby\",\n" +
+            "    \"product_details\": [\n" +
+            "        \"Product Dimensions: 5.8 x 5.8 x 4 inches ; 7.8 ounces\",\n" +
+            "        \"Shipping Weight: 8.5 ounces\",\n" +
+            "        \"Domestic Shipping: Item can be shipped within U.S.\",\n" +
+            "        \"UPC: 048526054381 013513034066\",\n" +
+            "        \"Item model number: 5438\"\n" +
+            "    ],\n" +
+            "    \"question_count\": 26,\n" +
+            "    \"stars\": 4.5,\n" +
+            "    \"price\": 799\n" +
             "}";
 
     public static final String POST_ORDER_RESPONSE_TO_BE_REPLACED = "XXX";
@@ -223,7 +338,7 @@ public class FakeZincController {
             @RequestParam(value = "newer_than", required = false) Long newerThan, // timestamp in seconds, ex: 1522268852 for 28/March/2018 at 22:27:32
             @RequestParam(value = "async", required = false) Boolean async
     ) {
-        log.info("Received request to path: GET " + "/v1/products/" + productId + "/offers");
+        log.info("Received request to path: GET " + "/v1/products/" + productId + "/offers" + " (product price)");
         log.info("Received parameters: "
                 + "retailer: " + retailer
                 + ", max_age: " + maxAge
@@ -232,6 +347,31 @@ public class FakeZincController {
         );
         log.info("Will return: " + GET_PRODUCT_OFFER_RESPONSE);
         return GET_PRODUCT_OFFER_RESPONSE;
+    }
+
+    @SuppressWarnings("unused")
+    @RequestMapping(
+            value = "/v1/products/{product_id}",
+            method = RequestMethod.GET,
+            produces = "application/json; charset=UTF-8"
+    )
+    /** eg https://api.zinc.io/v1/products/0923568964?retailer=amazon   */
+    public String getProductDetails(
+            @PathVariable(value = "product_id", required = true) String productId,
+            @RequestParam(value = "retailer", required = true) String retailer,
+            @RequestParam(value = "max_age", required = false) Long maxAge,
+            @RequestParam(value = "newer_than", required = false) Long newerThan, // timestamp in seconds, ex: 1522268852 for 28/March/2018 at 22:27:32
+            @RequestParam(value = "async", required = false) Boolean async
+    ) {
+        log.info("Received request to path: GET " + "/v1/products/" + productId + " (product details)");
+        log.info("Received parameters: "
+                + "retailer: " + retailer
+                + ", max_age: " + maxAge
+                + ", newer_than: " + newerThan
+                + ", async: " + async
+        );
+        log.info("Will return: " + GET_PRODUCT_DETAILS_RESPONSE);
+        return GET_PRODUCT_DETAILS_RESPONSE;
     }
 
 }
