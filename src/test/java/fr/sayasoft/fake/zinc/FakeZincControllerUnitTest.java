@@ -180,7 +180,7 @@ public class FakeZincControllerUnitTest {
 
     @Test
     public void postOrder_withString() throws Exception {
-        this.mockMvc.perform(post("/v1/order")
+        this.mockMvc.perform(post("/v1/orders")
                 .contentType(contentType)
                 .content(POST_ORDER_REQUEST))
                 .andDo(print())
@@ -190,9 +190,9 @@ public class FakeZincControllerUnitTest {
 
     @Test
     public void postOrder_withObject() throws Exception {
-        final String idempotencyKey = "Carina-Î²-Carinae-Miaplacidus";
+        final String idempotencyKey = "Carina-Carinae-Miaplacidus";
         orderRequest.setIdempotencyKey(idempotencyKey);
-        this.mockMvc.perform(post("/v1/order")
+        this.mockMvc.perform(post("/v1/orders")
                 .contentType(contentType)
                 .content(new Gson().toJson(orderRequest)))
                 .andDo(print())
@@ -210,7 +210,7 @@ public class FakeZincControllerUnitTest {
         orderRequest.getWebhooks().put(ZincWebhookType.request_succeeded, "http://localhost:9090/webhook/request_succeeded/abcd");
         this.mockMvc.perform(
                 post(
-                        "/v1/order")
+                        "/v1/orders")
                         .contentType(contentType)
                         .content(new Gson().toJson(orderRequest))
         ).andDo(print())
@@ -228,14 +228,14 @@ public class FakeZincControllerUnitTest {
         final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
                 MediaType.APPLICATION_JSON.getSubtype(),
                 Charset.forName("utf8"));
-        this.mockMvc.perform(post("/v1/order")
+        this.mockMvc.perform(post("/v1/orders")
                 .contentType(contentType)
                 .content(new Gson().toJson(orderRequest)))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string(StringContains.containsString("\"code\":\"invalid_quantity\"")))
                 .andExpect(content().string(StringContains.containsString("\"message\":\"The quantity for one of the products does not match the one available on the retailer.\"")))
-                .andExpect(content().string(StringContains.containsString("\"data\":\"{'fakeField': 'Ursa-Major-Ursae-Majoris-Phecda'}\"")))
+                .andExpect(content().string(StringContains.containsString("\"data\":{\"fakeField\":\"Ursa-Major-Ursae-Majoris-Phecda\"}")))
                 .andExpect(content().string(StringContains.containsString("\"_type\":\"error\"")))
         ;
     }
