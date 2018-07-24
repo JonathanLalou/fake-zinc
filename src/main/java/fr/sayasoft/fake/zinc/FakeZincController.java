@@ -223,7 +223,7 @@ public class FakeZincController {
             @RequestParam(value = "newer_than", required = false) Long newerThan, // timestamp in seconds, ex: 1522268852 for 28/March/2018 at 22:27:32
             @RequestParam(value = "async", required = false) Boolean async
     ) {
-        log.info("Received request to path: GET " + "/v1/products/" + productId);
+        log.info("Received request to path: GET " + "/v1/products/" + productId + "/offers");
         log.info("Received parameters: "
                 + "retailer: " + retailer
                 + ", max_age: " + maxAge
