@@ -334,13 +334,21 @@ public class FakeZincController {
         return "OK";
     }
 
+    /** eg https://api.zinc.io/v1/products/0923568964/offers?retailer=amazon
+     * <p/>
+     * Convention:<ul>
+     * <li><i>given:</i> <code>jsonResponseFolder=/usr/foo/bar</code> and file <code>/usr/foo/bar/productOffer/ABCDEF-amazon-offers.json</code> exists</li>
+     * <li><i>when:</i> the service is called with parameters <code>productId=ABCDEF</code> and <code>retailer=amazon</code></li>
+     * <li><i>then:</i> the String returned is the content of the file <code>/usr/foo/bar/productOffer/ABCDEF-amazon-offers.json</code></li>
+     *</ul>
+     * in all other cases (missing or blank <code>jsonResponseFolder</code>, missing JSON file): the returned value is the hard-coded value of <code>GET_PRODUCT_OFFER_RESPONSE</code>
+     * */
     @SuppressWarnings("unused")
     @RequestMapping(
             value = "/v1/products/{product_id}/offers",
             method = RequestMethod.GET,
             produces = "application/json; charset=UTF-8"
     )
-    /** eg https://api.zinc.io/v1/products/0923568964/offers?retailer=amazon  */
     public String getProductOffer(
             @PathVariable(value = "product_id", required = true) String productId,
             @RequestParam(value = "retailer", required = true) String retailer,
@@ -355,6 +363,16 @@ public class FakeZincController {
                 + ", newer_than: " + newerThan
                 + ", async: " + async
         );
+        if(StringUtils.isNotBlank(jsonResponseFolder)){
+            try {
+                final String fileRelativePath = "/productOffer/" + productId + "-" + retailer + "-offers.json";
+                final String jsonContent = new String(Files.readAllBytes(Paths.get(jsonResponseFolder + fileRelativePath)));
+                log.info("Will return: " + jsonContent);
+                return jsonContent;
+            } catch (IOException e) {
+                log.error("", e);
+            }
+        }
         log.info("Will return: " + GET_PRODUCT_OFFER_RESPONSE);
         return GET_PRODUCT_OFFER_RESPONSE;
     }
