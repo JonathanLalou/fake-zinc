@@ -24,6 +24,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -366,7 +367,7 @@ public class FakeZincController {
         if(StringUtils.isNotBlank(jsonResponseFolder)){
             try {
                 final String fileRelativePath = "/productOffer/" + productId + "-" + retailer + "-offers.json";
-                final String jsonContent = new String(Files.readAllBytes(Paths.get(jsonResponseFolder + fileRelativePath)));
+                final String jsonContent = new String(Files.readAllBytes(Paths.get(jsonResponseFolder + fileRelativePath)), "UTF-8");
                 log.info("Will return: " + jsonContent);
                 return jsonContent;
             } catch (IOException e) {
