@@ -7,7 +7,10 @@ import fr.sayasoft.zinc.sdk.domain.ZincConstants;
 import fr.sayasoft.zinc.sdk.domain.ZincError;
 import fr.sayasoft.zinc.sdk.enums.ZincErrorCode;
 import fr.sayasoft.zinc.sdk.enums.ZincWebhookType;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -28,7 +34,11 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @Log4j
+@Getter
+@Setter
 public class FakeZincController {
+
+    private String jsonResponseFolder = null;
 
     private static final String template = "Hello, %s!";
     public static final String GET_ORDER_RESPONSE = "{\n" +
@@ -349,13 +359,21 @@ public class FakeZincController {
         return GET_PRODUCT_OFFER_RESPONSE;
     }
 
+    /** example of called URL:  https://api.zinc.io/v1/products/0923568964?retailer=amazon
+     * <p/>
+     * Convention:<ul>
+     * <li><i>given:</i> <code>jsonResponseFolder=/usr/foo/bar</code> and file <code>/usr/foo/bar/productDetails/ABCDEF-amazon-details.json</code> exists</li>
+     * <li><i>when:</i> the service is called with parameters <code>productId=ABCDEF</code> and <code>retailer=amazon</code></li>
+     * <li><i>then:</i> the String returned is the content of the file <code>/usr/foo/bar/productDetails/ABCDEF-amazon-details.json</code></li>
+     *</ul>
+     * in all other cases (missing or blank <code>jsonResponseFolder</code>, missing JSON file): the returned value is the hard-coded value of <code>GET_PRODUCT_DETAILS_RESPONSE</code>
+     * */
     @SuppressWarnings("unused")
     @RequestMapping(
             value = "/v1/products/{product_id}",
             method = RequestMethod.GET,
             produces = "application/json; charset=UTF-8"
     )
-    /** eg https://api.zinc.io/v1/products/0923568964?retailer=amazon   */
     public String getProductDetails(
             @PathVariable(value = "product_id", required = true) String productId,
             @RequestParam(value = "retailer", required = true) String retailer,
@@ -370,6 +388,16 @@ public class FakeZincController {
                 + ", newer_than: " + newerThan
                 + ", async: " + async
         );
+        if(StringUtils.isNotBlank(jsonResponseFolder)){
+            try {
+                final String fileRelativePath = "/productDetails/" + productId + "-" + retailer + "-details.json";
+                final String jsonContent = new String(Files.readAllBytes(Paths.get(jsonResponseFolder + fileRelativePath)));
+                log.info("Will return: " + jsonContent);
+                return jsonContent;
+            } catch (IOException e) {
+                log.error("", e);
+            }
+        }
         log.info("Will return: " + GET_PRODUCT_DETAILS_RESPONSE);
         return GET_PRODUCT_DETAILS_RESPONSE;
     }
