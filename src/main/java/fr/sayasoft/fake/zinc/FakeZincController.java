@@ -10,6 +10,7 @@ import fr.sayasoft.zinc.sdk.enums.ZincWebhookType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -369,6 +369,7 @@ public class FakeZincController {
                 final String fileRelativePath = "/productOffer/" + productId + "-" + retailer + "-offers.json";
                 final String jsonContent = new String(Files.readAllBytes(Paths.get(jsonResponseFolder + fileRelativePath)), "UTF-8");
                 log.info("Will return: " + jsonContent);
+                waitIfJsonIsAnError(jsonContent);
                 return jsonContent;
             } catch (IOException e) {
                 log.error("", e);
@@ -376,6 +377,20 @@ public class FakeZincController {
         }
         log.info("Will return: " + GET_PRODUCT_OFFER_RESPONSE);
         return GET_PRODUCT_OFFER_RESPONSE;
+    }
+
+    /** Pauses the current thread for between 1 and 10 secondes when the returned message is related to an error*/
+    private void waitIfJsonIsAnError(String jsonContent) {
+        if (StringUtils.contains(jsonContent, "\"status\": \"failed\",\n")
+                || StringUtils.contains(jsonContent, "\"code\": \"internal_error\",")
+                || StringUtils.contains(jsonContent, "\"_type\": \"error\",")) {
+            log.info("(message is in error, will wait for a couple of seconds before returning)");
+            try {
+                Thread.sleep(RandomUtils.nextInt(1, 10) * 1000);
+            } catch (InterruptedException e) {
+                log.error(e);
+            }
+        }
     }
 
     /** example of called URL:  https://api.zinc.io/v1/products/0923568964?retailer=amazon
@@ -412,6 +427,7 @@ public class FakeZincController {
                 final String fileRelativePath = "/productDetails/" + productId + "-" + retailer + "-details.json";
                 final String jsonContent = new String(Files.readAllBytes(Paths.get(jsonResponseFolder + fileRelativePath)));
                 log.info("Will return: " + jsonContent);
+                waitIfJsonIsAnError(jsonContent);
                 return jsonContent;
             } catch (IOException e) {
                 log.error("", e);
