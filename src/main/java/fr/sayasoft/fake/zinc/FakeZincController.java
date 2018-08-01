@@ -39,7 +39,32 @@ import java.util.concurrent.atomic.AtomicLong;
 @Setter
 public class FakeZincController {
 
+    /** Folder where pre-available JSON responses are located at */
     private String jsonResponseFolder = null;
+
+    /**
+     * When no JSON is available for the request product details:<ul>
+     * <li>if true, then the default value {@link #GET_PRODUCT_DETAILS_RESPONSE} is returned ;</li>
+     * <li>if false: an error message {@link #GENERIC_OUTAGE_MESSAGE} is returned</li>
+     * </ul>
+     *
+     * @see FakeZincController#jsonResponseFolder
+     * @see FakeZincController#GET_PRODUCT_DETAILS_RESPONSE
+     * @see FakeZincController#GENERIC_OUTAGE_MESSAGE
+     */
+    private Boolean returnDefaultProductDetailsIfMissing = true;
+
+    /**
+     * When no JSON is available for the request product details:<ul>
+     * <li>if true, then the default value {@link #GET_PRODUCT_OFFER_RESPONSE} is returned</li>
+     * <li>if false: an error message @link {@link #GENERIC_OUTAGE_MESSAGE} is returned</li>
+     * </ul>
+     *
+     * @see FakeZincController#jsonResponseFolder
+     * @see FakeZincController#GET_PRODUCT_DETAILS_RESPONSE
+     * @see FakeZincController#GENERIC_OUTAGE_MESSAGE
+     */
+    private Boolean returnDefaultProductOffersIfMissing = true;
 
     private static final String template = "Hello, %s!";
     public static final String GET_ORDER_RESPONSE = "{\n" +
@@ -203,6 +228,19 @@ public class FakeZincController {
             "    \"question_count\": 26,\n" +
             "    \"stars\": 4.5,\n" +
             "    \"price\": 799\n" +
+            "}";
+
+    public static final String GENERIC_OUTAGE_MESSAGE = "{\n" +
+            "  \"status\": \"failed\",\n" +
+            "  \"_type\": \"error\",\n" +
+            "  \"code\": \"internal_error\",\n" +
+            "  \"message\": \"Zinc or the retailer you requested is experiencing outages. Please try again or contact support@zinc.io if this error persists.\",\n" +
+            "  \"data\": {\n" +
+            "    \"error_id\": \"69e42b30eb794ffb829501f47c8b5fd5\",\n" +
+            "    \"hostname\": \"pn4\",\n" +
+            "    \"details\": \"HTTPSConnectionPool(host='ziggurat.zinc.io', port=443): Read timed out. (read timeout=31)\",\n" +
+            "    \"key\": \"ReadTimeout\"\n" +
+            "  }\n" +
             "}";
 
     public static final String POST_ORDER_RESPONSE_TO_BE_REPLACED = "XXX";
@@ -375,8 +413,12 @@ public class FakeZincController {
                 log.error("", e);
             }
         }
-        log.info("Will return: " + GET_PRODUCT_OFFER_RESPONSE);
-        return GET_PRODUCT_OFFER_RESPONSE;
+        if(returnDefaultProductOffersIfMissing) {
+            log.info("Will return: " + GET_PRODUCT_OFFER_RESPONSE);
+            return GET_PRODUCT_OFFER_RESPONSE;
+        }
+        return GENERIC_OUTAGE_MESSAGE;
+
     }
 
     /** Pauses the current thread for between 1 and 10 secondes when the returned message is related to an error*/
@@ -433,8 +475,11 @@ public class FakeZincController {
                 log.error("", e);
             }
         }
-        log.info("Will return: " + GET_PRODUCT_DETAILS_RESPONSE);
-        return GET_PRODUCT_DETAILS_RESPONSE;
+        if(returnDefaultProductDetailsIfMissing) {
+            log.info("Will return: " + GET_PRODUCT_DETAILS_RESPONSE);
+            return GET_PRODUCT_DETAILS_RESPONSE;
+        }
+        return GENERIC_OUTAGE_MESSAGE;
     }
 
 }
